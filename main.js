@@ -3,57 +3,68 @@ const data = [
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Ужасы"
+        genre: "Ужасы",
+        rating: 3.14
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Ужасы"
+        genre: "Ужасы",
+        rating: 5.0
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Комедия"
+        genre: "Комедия",
+        rating: 7.4
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Ужасы"
+        genre: "Ужасы",
+        rating: 10.0
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Комедия"
+        genre: "Комедия",
+        rating: 4.9
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Меллодрамы"
+        genre: "Меллодрамы",
+        rating: 5.1
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Меллодрамы"
+        genre: "Меллодрамы",
+        rating: 4.4
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Меллодрамы"
+        genre: "Меллодрамы",
+        rating: 1.2
     },
     {
         title: "Вызов",
         description: "Some quick example text to build on the card title and make up the bulk of the card's content.",
         image: "img/vyzov_2.jpg",
-        genre: "Меллодрамы"
+        genre: "Меллодрамы",
+        rating: 8.7
     }
 ]
+
+var values = []
 
 class MovieListDTO
 {
@@ -66,6 +77,18 @@ class MovieListDTO
         this.title = title;
         this.description = description;
         this.image = image;
+    }
+}
+
+class FilterDTO
+{
+    genre;
+    rating;
+
+    constructor(genre, rating)
+    {
+        this.genre = genre;
+        this.rating = rating;
     }
 }
 
@@ -136,5 +159,66 @@ class RenderTemplate
         // Рендер на страницу
         document.getElementById("app")
             .innerHTML += template
+    }
+}
+
+class Filter
+{
+    getFilter()
+    {
+        values = null
+        values = data
+        return new RenderTemplate().renderAll(values)
+    }
+
+    getRatingFilter()
+    {
+        values = null
+        for (var i = 0; i < data.length - 1; i--)
+        {
+            for (var x = 0; x < i; x++)
+            {
+                if (data[i].rating > data[x].rating)
+                {
+                    console.log(data[i].rating)
+                    console.log(data[x].rating)
+                }
+            }
+        }
+    }
+
+    getGenreFilter(genre)
+    {
+        values = []
+        document.getElementById("app").innerHTML = ""
+        for (let x = 0; x < data.length; x++)
+        {
+            if (genre == data[x].genre)
+            {
+                values.push(data[x])
+            }
+        }
+        let render = new RenderTemplate()
+        return render.renderAll(values)
+    }
+
+    run(param)
+    {
+        // if (param.genre && param.rating)
+        // {
+        //     console.log(1)
+        //     this.getFilter()
+        // }
+
+        if (param.genre != null)
+        {
+            this.getGenreFilter(param.genre)
+        }
+
+        else if (param.rating != null)
+        {
+            this.getRatingFilter()
+            console.log(3) 
+        }
     }
 }
